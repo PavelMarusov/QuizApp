@@ -1,7 +1,10 @@
 package com.example.quizapp.ui.fragment.main;
 
+import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,7 +21,6 @@ import com.example.quizapp.R;
 public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
-
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -26,7 +28,9 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        View view =  inflater.inflate(R.layout.main_fragment, container, false);
+
+        return view;
     }
 
     @Override
