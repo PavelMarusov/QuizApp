@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.example.quizapp.R;
 
+import java.util.Objects;
+
 public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
@@ -43,6 +45,7 @@ public class MainFragment extends Fragment {
         seekBar = view.findViewById(R.id.main_fr_seekBar);
         plus_btn = view.findViewById(R.id.main_plus_btn);
         minus_btn = view.findViewById(R.id.main_minus_btn);
+
         return view;
     }
 
@@ -50,18 +53,45 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mViewModel.onProgressChange(seekBar,counter);
-        mViewModel.plusPress(plus_btn);
-        mViewModel.minusPressed(minus_btn);
-        mViewModel.mutableLiveData.observe(getActivity(), new Observer<Integer>() {
+        mViewModel.mutableLiveData.observe(Objects.requireNonNull(getActivity()), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 mainCounter.setText(String.valueOf(integer));
             }
         });
+      onProgressChange();
+       plus_btn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               mViewModel.plusPress();
+           }
+       });
+        minus_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewModel.minusPressed();
+            }
+        });
 
 
     }
+    public void onProgressChange() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                counter.setText(String.valueOf(i));
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+    }
 }

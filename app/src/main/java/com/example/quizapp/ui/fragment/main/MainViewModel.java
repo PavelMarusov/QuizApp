@@ -14,43 +14,23 @@ import java.lang.reflect.Array;
 
 public class MainViewModel extends ViewModel {
     public MutableLiveData<Integer> mutableLiveData = new MutableLiveData<>();
-        final int[] num = {0};
 
-    public void plusPress(Button plus) {
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mutableLiveData.postValue(num[0]++);
-                Log.d("pop", "plus="+ num[0]);
-            }
-        });
+
+    public void plusPress() {
+       if (mutableLiveData.getValue()==null){
+           mutableLiveData.setValue(0);
+       }
+       mutableLiveData.setValue(mutableLiveData.getValue() + 1);
+
+
     }
-    public void minusPressed(Button minus){
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mutableLiveData.postValue(num[0] --);
-            }
-        });
+    public void minusPressed(){
+        if (mutableLiveData.getValue()==null){
+            mutableLiveData.setValue(0);
+        }
+        mutableLiveData.setValue(mutableLiveData.getValue() - 1);
     }
 
-    public void onProgressChange(AppCompatSeekBar seekBar, final TextView counter) {
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                counter.setText(String.valueOf(i));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-    }
+    
 
 }
