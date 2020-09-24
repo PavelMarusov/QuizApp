@@ -31,6 +31,6 @@ public class MainViewModel extends ViewModel {
         mutableLiveData.setValue(mutableLiveData.getValue() - 1);
     }
 
-    
+
 
 }

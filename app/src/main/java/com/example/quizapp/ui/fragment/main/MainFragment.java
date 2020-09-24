@@ -4,6 +4,7 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -20,7 +21,9 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.quizapp.MainActivity;
 import com.example.quizapp.R;
+import com.example.quizapp.ui.presentation.QuestionActivity;
 
 import java.util.Objects;
 
@@ -29,7 +32,7 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
     private TextView counter, mainCounter;
     private AppCompatSeekBar seekBar;
-    private Button plus_btn, minus_btn;
+    private Button plus_btn, minus_btn,start_btn;
 
 
     public static MainFragment newInstance() {
@@ -45,6 +48,14 @@ public class MainFragment extends Fragment {
         seekBar = view.findViewById(R.id.main_fr_seekBar);
         plus_btn = view.findViewById(R.id.main_plus_btn);
         minus_btn = view.findViewById(R.id.main_minus_btn);
+        start_btn = view.findViewById(R.id.main_start_btn);
+        start_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), QuestionActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
