@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizapp.R;
+import com.example.quizapp.databinding.ListQuestionBinding;
 import com.example.quizapp.ui.interfaces.OnItemClicked;
 import com.example.quizapp.ui.model.QuestionModel;
 
@@ -27,9 +29,11 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
     @NonNull
     @Override
     public QuestionsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.list_question, parent, false);
-        return new QuestionsHolder(view);
+        ListQuestionBinding binding = DataBindingUtil.
+                bind(LayoutInflater.
+                        from(parent.getContext()).
+                        inflate(R.layout.list_question,parent,false));
+        return new QuestionsHolder(binding);
     }
 
     @Override
@@ -43,34 +47,35 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
     }
 
     class QuestionsHolder extends RecyclerView.ViewHolder {
-        private TextView title, answer1, answer2, answer3, answer4;
-
-        public QuestionsHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.quest_title_tv);
-            answer1 = itemView.findViewById(R.id.quest_answer1_tv);
-            answer2 = itemView.findViewById(R.id.quest_answer2_tv);
-            answer3 = itemView.findViewById(R.id.quest_answer3_tv);
-            answer4 = itemView.findViewById(R.id.quest_answer4_tv);
-            answer1.setOnClickListener(new View.OnClickListener() {
+//        private TextView title, answer1, answer2, answer3, answer4;
+ListQuestionBinding binding;
+        public QuestionsHolder(ListQuestionBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+//            title = itemView.findViewById(R.id.quest_title_tv);
+//            answer1 = itemView.findViewById(R.id.quest_answer1_tv);
+//            answer2 = itemView.findViewById(R.id.quest_answer2_tv);
+//            answer3 = itemView.findViewById(R.id.quest_answer3_tv);
+//            answer4 = itemView.findViewById(R.id.quest_answer4_tv);
+            binding.questAnswer1Tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listner.onItemClick();
                 }
             });
-            answer2.setOnClickListener(new View.OnClickListener() {
+            binding.questAnswer2Tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listner.onItemClick();
                 }
             });
-            answer3.setOnClickListener(new View.OnClickListener() {
+           binding.questAnswer3Tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listner.onItemClick();
                 }
             });
-            answer4.setOnClickListener(new View.OnClickListener() {
+            binding.questAnswer4Tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listner.onItemClick();
@@ -79,17 +84,17 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
         }
 
         public void onBind(QuestionModel model) {
-            title.setText(model.getTitle());
+            binding.questTitleTv.setText(model.getTitle());
             if (!model.isMulti()) {
-                answer2.setVisibility(View.GONE);
-                answer4.setVisibility(View.GONE);
-                answer1.setText(model.getAnswer_first());
-                answer3.setText(model.getAnswer_third());
+               binding.questAnswer2Tv.setVisibility(View.GONE);
+               binding.questAnswer4Tv.setVisibility(View.GONE);
+                binding.questAnswer1Tv.setText(model.getAnswer_first());
+                binding.questAnswer3Tv.setText(model.getAnswer_third());
             } else {
-                answer1.setText(model.getAnswer_first());
-                answer2.setText(model.getAnswer_second());
-                answer3.setText(model.getAnswer_third());
-                answer4.setText(model.getAnswer_four());
+                binding.questAnswer1Tv.setText(model.getAnswer_first());
+                binding.questAnswer2Tv.setText(model.getAnswer_second());
+                binding.questAnswer3Tv.setText(model.getAnswer_third());
+                binding.questAnswer4Tv.setText(model.getAnswer_four());
             }
 
 
