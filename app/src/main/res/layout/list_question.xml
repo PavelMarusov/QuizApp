@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
 
 
 
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-
     android:layout_height="match_parent">
 
 
 
-    <androidx.core.widget.ContentLoadingProgressBar
+    <ProgressBar
         android:id="@+id/quest_progress_bar"
         android:layout_width="176dp"
         android:layout_height="8dp"
@@ -27,7 +25,7 @@
         android:indeterminate="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quest_category_tv" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/text"
@@ -46,7 +44,7 @@
         android:layout_height="20dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="5"
+        android:text="0"
         app:layout_constraintRight_toLeftOf="@id/text"
         app:layout_constraintTop_toBottomOf="@id/quest_progress_bar" />
 
@@ -133,6 +131,8 @@
         android:textStyle="bold"
         android:textColor="#ffffff"
         />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

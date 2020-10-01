@@ -38,10 +38,6 @@ public class MainViewModel extends ViewModel {
         mutableLiveData.setValue(mutableLiveData.getValue() - 1);
     }
 
-    public void getData(QuizAppService.QuizApiCallback callback){
-        App.appService.getCategories(callback);
-        Log.d("pop","getData");
-    }
     public void getCategory(){
         App.appService.getCategories(new QuizAppService.QuizApiCallback() {
             @Override

@@ -1,20 +1,46 @@
 package com.example.quizapp.ui.model;
 
+import java.util.List;
+
 public class QuestionModel {
     private String title;
     private String answer_first;
     private String answer_second;
     private String answer_third;
     private String answer_four;
-    private boolean isMulti ;
+    private String true_answer;
 
-    public QuestionModel(String title, String answer_first, String answer_second, String answer_third, String answer_four, boolean isMulti) {
+    private boolean isMulti ;
+    private boolean isRight ;
+
+    public QuestionModel() {
+    }
+
+    public QuestionModel(String title, String answer_first, String answer_second, String answer_third, String answer_four, String true_answer, boolean isMulti) {
         this.title = title;
         this.answer_first = answer_first;
         this.answer_second = answer_second;
         this.answer_third = answer_third;
         this.answer_four = answer_four;
         this.isMulti = isMulti;
+        this.true_answer = true_answer;
+
+    }
+
+    public boolean isRight() {
+        return isRight;
+    }
+
+    public void setRight(boolean right) {
+        isRight = right;
+    }
+
+    public void setTrue_answer(String true_answer) {
+        this.true_answer = true_answer;
+    }
+
+    public String getTrue_answer() {
+        return true_answer;
     }
 
     public String getAnswer_third() {

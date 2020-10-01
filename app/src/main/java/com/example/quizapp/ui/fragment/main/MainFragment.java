@@ -2,21 +2,16 @@ package com.example.quizapp.ui.fragment.main;
 
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +21,10 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.quizapp.MainActivity;
 import com.example.quizapp.R;
-import com.example.quizapp.ui.data.network.QuizAppService;
 import com.example.quizapp.ui.model.CategoryModel;
 import com.example.quizapp.ui.model.Trivia_category;
-import com.example.quizapp.ui.presentation.QuestionActivity;
+import com.example.quizapp.ui.presentation.question.QuestionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +41,8 @@ public class MainFragment extends Fragment {
     private  String categoryName;
 
 
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
+    public static MainFragment newInstance()
+    { return new MainFragment(); }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

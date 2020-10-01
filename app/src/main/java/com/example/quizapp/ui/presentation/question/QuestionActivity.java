@@ -1,4 +1,4 @@
-package com.example.quizapp.ui.presentation;
+package com.example.quizapp.ui.presentation.question;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -6,19 +6,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.animation.Animation;
+import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quizapp.R;
 import com.example.quizapp.ui.adapter.ListQuestionAdapter;
 import com.example.quizapp.ui.interfaces.OnItemClicked;
 import com.example.quizapp.ui.model.QuestionModel;
+import com.example.quizapp.ui.presentation.result.ResultActivity;
 import com.example.quizapp.ui.viewModel.QuestionModelRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity implements OnItemClicked {
@@ -27,7 +28,8 @@ public class QuestionActivity extends AppCompatActivity implements OnItemClicked
     private List<QuestionModel> list;
     public MutableLiveData<Integer> liveData = new MutableLiveData<>();
     private ProgressBar progressBar;
-    private TextView categoryTV;
+    private TextView categoryTV,back;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +41,52 @@ public class QuestionActivity extends AppCompatActivity implements OnItemClicked
         list = new QuestionModelRepository().getQuestionList();
         adapter = new ListQuestionAdapter(list, this);
         recyclerView.setAdapter(adapter);
+        back= findViewById(R.id.quest_back_tv);
         Intent intent = getIntent();
-        int id =intent.getIntExtra("categori",0);
+        int id = intent.getIntExtra("categori", 0);
         categoryTV.setText(intent.getStringExtra("name"));
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                liveData.setValue(liveData.getValue()-1);
+                recyclerView.scrollToPosition(liveData.getValue());
+            }
+        });
 
 
     }
+
+
+
 
     @Override
     public void onItemClick() {
-        if (liveData.getValue() == null){
+        if (liveData.getValue() == null) {
             liveData.setValue(0);
-
         }
-        liveData.setValue(liveData.getValue()+1);
-        recyclerView.scrollToPosition(liveData.getValue());
-        Log.d("pop","onItemClick" );
+
+        new CountDownTimer(500, 500) {
+
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                if (liveData.getValue() == (list.size() - 1)){
+                    Intent intent = new Intent(QuestionActivity.this, ResultActivity.class);
+                    startActivity(intent);
+                }else {
+                    liveData.setValue(liveData.getValue() + 1);
+                    recyclerView.scrollToPosition(liveData.getValue());
+                }
+            }
+        }.start();
+
+
     }
+
+
 }

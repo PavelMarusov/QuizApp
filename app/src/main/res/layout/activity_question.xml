@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.presentation.QuestionActivity">
+    tools:context=".ui.presentation.question.QuestionActivity">
 
     <TextView
         android:id="@+id/quest_category_tv"
