@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result {
+public class ResultQuiz {
 
     @SerializedName("category")
     @Expose
@@ -74,4 +74,15 @@ public class Result {
         this.incorrect_answers = incorrect_answers;
     }
 
+    @Override
+    public String toString() {
+        return "ResultQuiz{" +
+                "category='" + category + '\'' +
+                ", type='" + type + '\'' +
+                ", difficulty='" + difficulty + '\'' +
+                ", question='" + question + '\'' +
+                ", correct_answer='" + correct_answer + '\'' +
+                ", incorrect_answers=" + incorrect_answers +
+                '}';
+    }
 }

@@ -12,7 +12,7 @@ public class QuizModel {
     private Integer response_code;
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<ResultQuiz> results = null;
 
     public Integer getResponse_code() {
         return response_code;
@@ -22,12 +22,19 @@ public class QuizModel {
         this.response_code = response_code;
     }
 
-    public List<Result> getResults() {
+    public List<ResultQuiz> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(List<ResultQuiz> results) {
         this.results = results;
     }
 
+    @Override
+    public String toString() {
+        return "QuizModel{" +
+                "response_code=" + response_code +
+                ", results=" + results +
+                '}';
+    }
 }

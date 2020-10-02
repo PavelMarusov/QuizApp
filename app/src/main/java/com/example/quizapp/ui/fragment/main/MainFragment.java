@@ -25,6 +25,7 @@ import com.example.quizapp.R;
 import com.example.quizapp.ui.model.CategoryModel;
 import com.example.quizapp.ui.model.Trivia_category;
 import com.example.quizapp.ui.presentation.question.QuestionActivity;
+import com.example.quizapp.util.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,10 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
     private TextView counter, mainCounter;
     private AppCompatSeekBar seekBar;
-    private AppCompatSpinner spinner;
+    private AppCompatSpinner spinner_cat,spinner_dif;
     private Button plus_btn, minus_btn,start_btn;
-    private int id;
-    private  String categoryName;
+    private Integer category_id,amount;
+    private  String categoryName,difficulty_l;
 
 
     public static MainFragment newInstance()
@@ -51,7 +52,9 @@ public class MainFragment extends Fragment {
         counter = view.findViewById(R.id.seek_bar_counter);
         mainCounter = view.findViewById(R.id.main_counter);
         seekBar = view.findViewById(R.id.main_fr_seekBar);
-        spinner =view.findViewById(R.id.main_category_spinner);
+        seekBar.setMax(10);
+        spinner_cat =view.findViewById(R.id.main_category_spinner);
+        spinner_dif = view.findViewById(R.id.main_difficulty_spinner);
         plus_btn = view.findViewById(R.id.main_plus_btn);
         minus_btn = view.findViewById(R.id.main_minus_btn);
         start_btn = view.findViewById(R.id.main_start_btn);
@@ -59,12 +62,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), QuestionActivity.class);
-                intent.putExtra("categori",id);
-                intent.putExtra("name",categoryName);
+                intent.putExtra(Config.KEY_CATEGORY, category_id);
+                intent.putExtra(Config.KEY_NAME,categoryName);
+                intent.putExtra(Config.KEY_DIFFICULTY,difficulty_l);
+                intent.putExtra(Config.KEY_AMOUNT,amount);
                 startActivity(intent);
             }
         });
-
+setDifficulty();
 
         return view;
     }
@@ -101,11 +106,11 @@ public class MainFragment extends Fragment {
              for ( Trivia_category trivia_categorys: trivia_categories){
                  list.add(trivia_categorys.getName());
                  ArrayAdapter<String> adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_dropdown_item, list);
-                 spinner.setAdapter(adapter);
-                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                 spinner_cat.setAdapter(adapter);
+                 spinner_cat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                      @Override
                      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                         id = categoryModel.getTrivia_categories().get(i).getId();
+                         category_id = categoryModel.getTrivia_categories().get(i).getId();
                          categoryName = categoryModel.getTrivia_categories().get(i).getName();
                      }
 
@@ -121,11 +126,34 @@ public class MainFragment extends Fragment {
 
 
     }
+    public void setDifficulty(){
+        List<String > difficulty = new ArrayList<>();
+        difficulty.add("Any difficulty");
+        difficulty.add("easy");
+        difficulty.add("medium");
+        difficulty.add("hard");
+        ArrayAdapter<String > adapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_dropdown_item,difficulty);
+        spinner_dif.setAdapter(adapter);
+        spinner_dif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                difficulty_l = difficulty.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
     public void onProgressChange() {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 counter.setText(String.valueOf(i));
+                amount = i;
             }
 
             @Override

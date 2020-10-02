@@ -11,21 +11,33 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.quizapp.R;
 import com.example.quizapp.databinding.ListQuestionBinding;
+import com.example.quizapp.ui.interfaces.IAnswerCheck;
 import com.example.quizapp.ui.interfaces.OnItemClicked;
 import com.example.quizapp.ui.model.QuestionModel;
+import com.example.quizapp.ui.model.ResultModel;
+import com.example.quizapp.ui.model.ResultQuiz;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapter.QuestionsHolder> {
-    private List<QuestionModel> list;
+    private List<ResultQuiz> list;
     private OnItemClicked listner;
+    private IAnswerCheck iAnswerCheck;
 
 
-    public ListQuestionAdapter(List<QuestionModel> list, OnItemClicked listener) {
+
+    public ListQuestionAdapter(List<ResultQuiz> list, OnItemClicked listener,IAnswerCheck iAnswerCheck) {
         this.list = list;
         this.listner = listener;
+        this.iAnswerCheck = iAnswerCheck;
     }
 
     @NonNull
@@ -51,35 +63,23 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
     class QuestionsHolder extends RecyclerView.ViewHolder {
         private ListQuestionBinding binding;
         private String answerTrue;
-        boolean isTry;
-        private int counterTru;
-        private int counterFalse;
-        private int count = 1;
 
 
         public QuestionsHolder(ListQuestionBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.questSkipBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listner.onItemClick();
-                }
-            });
 
             binding.questAnswer1Tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("pop", "onClick");
                     String s = binding.questAnswer1Tv.getText() + "";
                     isTryAnswer(s, answerTrue, binding.questAnswer1Tv);
                     listner.onItemClick();
-                    binding.questProgressStart.setText(count+"");
-                    binding.questProgressBar.setProgress(10);
                     binding.questAnswer1Tv.setEnabled(false);
                     binding.questAnswer2Tv.setEnabled(false);
                     binding.questAnswer3Tv.setEnabled(false);
                     binding.questAnswer4Tv.setEnabled(false);
+
 
                 }
             });
@@ -93,6 +93,7 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
                     binding.questAnswer2Tv.setEnabled(false);
                     binding.questAnswer3Tv.setEnabled(false);
                     binding.questAnswer4Tv.setEnabled(false);
+
                 }
             });
             binding.questAnswer3Tv.setOnClickListener(new View.OnClickListener() {
@@ -118,43 +119,50 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
                     binding.questAnswer3Tv.setEnabled(false);
                     binding.questAnswer4Tv.setEnabled(false);
 
+
                 }
             });
         }
 
-        public void onBind(QuestionModel model) {
-            answerTrue = list.get(getAdapterPosition()).getTrue_answer();
-            binding.questTitleTv.setText(model.getTitle());
-            binding.questProgressEnd.setText(list.size()+"");
-            if (!model.isMulti()) {
+        public void onBind(ResultQuiz model) {
+            answerTrue = model.getCorrect_answer();
+            binding.questTitleTv.setText(model.getQuestion());
+            binding.questAnswer1Tv.setEnabled(true);
+            binding.questAnswer2Tv.setEnabled(true);
+            binding.questAnswer3Tv.setEnabled(true);
+            binding.questAnswer4Tv.setEnabled(true);
+            binding.questAnswer1Tv.setBackgroundResource(R.drawable.qustion_answer_bg);
+            binding.questAnswer2Tv.setBackgroundResource(R.drawable.qustion_answer_bg);
+            binding.questAnswer3Tv.setBackgroundResource(R.drawable.qustion_answer_bg);
+            binding.questAnswer4Tv.setBackgroundResource(R.drawable.qustion_answer_bg);
+            if (model.getIncorrect_answers().size() == 1) {
                 binding.questAnswer2Tv.setVisibility(View.GONE);
                 binding.questAnswer4Tv.setVisibility(View.GONE);
-                binding.questAnswer1Tv.setText(model.getAnswer_first());
-                binding.questAnswer3Tv.setText(model.getAnswer_third());
+                binding.questAnswer1Tv.setText(model.getCorrect_answer());
+                binding.questAnswer3Tv.setText(model.getIncorrect_answers().get(0));
 
             } else {
-                binding.questAnswer1Tv.setText(model.getAnswer_first());
-                binding.questAnswer2Tv.setText(model.getAnswer_second());
-                binding.questAnswer3Tv.setText(model.getAnswer_third());
-                binding.questAnswer4Tv.setText(model.getAnswer_four());
+                List<String> answers = model.getIncorrect_answers();
+                answers.add(model.getCorrect_answer());
+                Collections.shuffle(answers);
+                binding.questAnswer1Tv.setText(answers.get(0));
+                binding.questAnswer2Tv.setText(answers.get(1));
+                binding.questAnswer3Tv.setText(answers.get(2));
+                binding.questAnswer4Tv.setText(answers.get(3));
             }
         }
 
         public void isTryAnswer(String answer, String tryAnswer, TextView textView) {
-            Log.d("pop", "answer=" + answer);
-            Log.d("pop", "tryAnswer=" + tryAnswer);
+
             if (answer.contains(tryAnswer)) {
-                isTry = true;
                 textView.setBackgroundResource(R.color.colorAccent);
-                counterTru++;
-                return;
+                YoYo.with(Techniques.RotateIn).duration(700).repeat(5).playOn(textView);
             }
+            else {
+                textView.setBackgroundResource(R.color.colorRed);
+                YoYo.with(Techniques.Bounce).duration(700).repeat(5).playOn(textView);
 
-            textView.setBackgroundResource(R.color.colorRed);
-            isTry = false;
-            counterFalse++;
-            Toast.makeText(itemView.getContext(), "Error", Toast.LENGTH_SHORT).show();
-
+            }
         }
     }
 }
