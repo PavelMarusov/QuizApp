@@ -1,11 +1,9 @@
 package com.example.quizapp.ui.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -15,29 +13,25 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.quizapp.R;
 import com.example.quizapp.databinding.ListQuestionBinding;
-import com.example.quizapp.ui.interfaces.IAnswerCheck;
+
 import com.example.quizapp.ui.interfaces.OnItemClicked;
-import com.example.quizapp.ui.model.QuestionModel;
-import com.example.quizapp.ui.model.ResultModel;
 import com.example.quizapp.ui.model.ResultQuiz;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 
 public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapter.QuestionsHolder> {
     private List<ResultQuiz> list;
     private OnItemClicked listner;
-    private IAnswerCheck iAnswerCheck;
 
 
 
-    public ListQuestionAdapter(List<ResultQuiz> list, OnItemClicked listener,IAnswerCheck iAnswerCheck) {
+
+    public ListQuestionAdapter(List<ResultQuiz> list, OnItemClicked listener) {
         this.list = list;
         this.listner = listener;
-        this.iAnswerCheck = iAnswerCheck;
+
     }
 
     @NonNull
@@ -68,6 +62,16 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
         public QuestionsHolder(ListQuestionBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.questSkipBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listner.onItemClick();
+                    binding.questAnswer1Tv.setEnabled(false);
+                    binding.questAnswer2Tv.setEnabled(false);
+                    binding.questAnswer3Tv.setEnabled(false);
+                    binding.questAnswer4Tv.setEnabled(false);
+                }
+            });
 
             binding.questAnswer1Tv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,10 +160,12 @@ public class ListQuestionAdapter extends RecyclerView.Adapter<ListQuestionAdapte
 
             if (answer.contains(tryAnswer)) {
                 textView.setBackgroundResource(R.color.colorAccent);
+                listner.isAnswerTry(true);
                 YoYo.with(Techniques.RotateIn).duration(700).repeat(5).playOn(textView);
             }
             else {
                 textView.setBackgroundResource(R.color.colorRed);
+                listner.isAnswerTry(false);
                 YoYo.with(Techniques.Bounce).duration(700).repeat(5).playOn(textView);
 
             }
