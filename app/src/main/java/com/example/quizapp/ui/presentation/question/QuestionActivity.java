@@ -65,11 +65,13 @@ public class QuestionActivity extends AppCompatActivity {
 
     }
     public void getData(Integer amount, Integer category, String difficulty){
-        viewModel.getQuestions(amount,category,difficulty);
+        Log.d("pop","getData");
+        viewModel.getQuestionsByRepository(amount,category,difficulty);
         viewModel.quizModelLiveData.observe(this, new Observer<QuizModel>() {
             @Override
             public void onChanged(QuizModel model) {
                 list = model.getResults();
+                Log.d("pop","getData + list" + list.size());
                 adapter = new ListQuestionAdapter(list, new OnItemClicked() {
                     @Override
                     public void onItemClick() {

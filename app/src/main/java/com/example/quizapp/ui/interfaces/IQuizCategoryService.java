@@ -2,7 +2,7 @@ package com.example.quizapp.ui.interfaces;
 
 import com.example.quizapp.ui.model.CategoryModel;
 
-public interface QuizApiClient {
+public interface IQuizCategoryService {
 
     void getCategory(CategoryCallback callback);
     interface CategoryCallback extends IBaseCallback<CategoryModel>{
@@ -12,4 +12,6 @@ public interface QuizApiClient {
         @Override
         void onFailure(Throwable th);
     }
+
+
 }

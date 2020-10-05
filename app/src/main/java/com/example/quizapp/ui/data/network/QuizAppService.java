@@ -2,6 +2,7 @@ package com.example.quizapp.ui.data.network;
 
 import android.util.Log;
 
+import com.example.quizapp.ui.interfaces.IQuizQuestionsService;
 import com.example.quizapp.ui.model.CategoryModel;
 import com.example.quizapp.ui.model.QuizModel;
 
@@ -13,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public class QuizAppService {
+public class QuizAppService implements IQuizQuestionsService {
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://opentdb.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -54,6 +55,26 @@ public class QuizAppService {
             public void onFailure(Call<CategoryModel> call, Throwable t) {
                 callback.onFailure(t);
 
+            }
+        });
+    }
+
+    @Override
+    public void getQuestions(QuestionsCallback callback, Integer amount, Integer category, String difficulty) {
+        Call<QuizModel> call = service.getQuestion(amount, category, difficulty);
+        call.enqueue(new Callback<QuizModel>() {
+            @Override
+            public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                    Log.d("pop", "onSuccess" + response.body().getResults().size());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuizModel> call, Throwable t) {
+                Log.d("pop", "onFailure " + t.getMessage());
             }
         });
     }
