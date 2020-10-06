@@ -66,7 +66,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
     public void getData(Integer amount, Integer category, String difficulty){
         Log.d("pop","getData");
-        viewModel.getQuestionsByRepository(amount,category,difficulty);
+        viewModel.getQuestions(amount,category,difficulty);
         viewModel.quizModelLiveData.observe(this, new Observer<QuizModel>() {
             @Override
             public void onChanged(QuizModel model) {
