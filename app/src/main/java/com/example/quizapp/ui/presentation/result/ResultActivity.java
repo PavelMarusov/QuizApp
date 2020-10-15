@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.quizapp.App;
 import com.example.quizapp.MainActivity;
 import com.example.quizapp.R;
+import com.example.quizapp.ui.model.ResultModel;
 import com.example.quizapp.util.Config;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity  implements View.OnClickListener {
     private ResultViewModel mViewModel;
     private Button buttonFinish;
     private TextView category, difficulty, allResult, rightAns, incorrectAns;
@@ -34,25 +36,33 @@ public class ResultActivity extends AppCompatActivity {
         rightAns = findViewById(R.id.r_correct_answer_left);
         incorrectAns = findViewById(R.id.r_correct_answer_right);
         allResult = findViewById(R.id.r_result_set);
-        buttonFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ResultActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        buttonFinish.setOnClickListener(this::onClick);
+        intentGet();
+    }
+
+    public void intentGet(){
         Intent intent = getIntent();
         category.setText(intent.getStringExtra(Config.KEY_CATEGORY));
         difficulty.setText(intent.getStringExtra(Config.KEY_DIFFICULTY));
         rightAnswer = intent.getIntExtra(Config.KEY_ANSWER, 0);
         allQuestion = intent.getIntExtra(Config.KEY_AMOUNT, 0);
-
         procent = (double)rightAnswer / allQuestion;
         int n = (int) (procent *100);
         allResult.setText(String.valueOf(n)+"%");
         rightAns.setText(String.valueOf(rightAnswer));
         incorrectAns.setText(String.valueOf(allQuestion));
+    }
 
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(ResultActivity.this, MainActivity.class);
+        startActivity(intent);
+        addToDb();
+    }
 
+    public void addToDb(){
+        ResultModel model = new ResultModel(category.getText().toString(),difficulty.getText().toString(),rightAnswer);
+       App.dataBase.questionDao().insert(model);
+       Log.d("pop","DB ="+App.dataBase.questionDao().getAll());
     }
 }

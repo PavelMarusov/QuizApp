@@ -1,28 +1,14 @@
-package com.example.quizapp.ui.repository;
-
-import android.util.Log;
+package com.example.quizapp.ui.fragment.history;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.quizapp.ui.interfaces.IHistoryStorage;
-import com.example.quizapp.ui.interfaces.IQuizQuestionsService;
 import com.example.quizapp.ui.model.QuizModel;
 import com.example.quizapp.ui.model.ResultModel;
 
 import java.util.ArrayList;
 
-public  class QuizRepository implements IQuizQuestionsService, IHistoryStorage {
-    private IQuizQuestionsService questionsService;
-
-    public QuizRepository(IQuizQuestionsService questionsService) {
-        this.questionsService = questionsService;
-    }
-
-    @Override
-    public void getQuestions(QuestionsCallback callback, Integer amount, Integer category, String difficulty) {
-
-    }
-
+public class HistoryStorage implements IHistoryStorage {
     @Override
     public LiveData<ArrayList<QuizModel>> getAll() {
         return null;
