@@ -72,6 +72,7 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -106,6 +107,7 @@ public class MainFragment extends Fragment {
 
 
     }
+
 
     public void setDifficulty() {
         List<String> difficulty = new ArrayList<>();

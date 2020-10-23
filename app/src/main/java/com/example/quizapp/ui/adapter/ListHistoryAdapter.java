@@ -35,6 +35,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
     public void onBindViewHolder(@NonNull HistoryHolder holder, int position) {
         binding.historyTitle.setText(list.get(position).getCategory());
         binding.difficultyT.setText(list.get(position).getDifficulty());
+        binding.answerCount.setText(list.get(position).getCorrectAnswer()+"");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.quizapp.ui.interfaces;
+package com.example.core;
 
 public interface IBaseCallback <T> {
     void onSuccess(T result);

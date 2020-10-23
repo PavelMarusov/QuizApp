@@ -54,9 +54,8 @@ public class HistoryFragment extends Fragment {
         App.dataBase.questionDao().getUpdate().observe(getActivity(), new Observer<List<ResultModel>>() {
             @Override
             public void onChanged(List<ResultModel> resultModels) {
-                if (list==null){
-                
-                adapter.notifyDataSetChanged();}
+                list.remove(resultModels);
+                adapter.notifyDataSetChanged();
             }
         });
 

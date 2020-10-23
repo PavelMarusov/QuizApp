@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        changeTheme();
         setContentView(R.layout.activity_main);
         viewPager = findViewById(R.id.main_view_pager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -26,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.main_bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+    }
+
+    public void changeTheme(){
+        setTheme(App.preferences.getTheme(R.style.AppTheme));
     }
 
     @Override

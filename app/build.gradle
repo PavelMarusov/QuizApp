@@ -48,4 +48,6 @@ dependencies {
     def room_version = "2.2.5"
     implementation "androidx.room:room-runtime:2.2.5"
     annotationProcessor "androidx.room:room-compiler:2.2.5"
+    // core module
+    implementation project('::core')
 }

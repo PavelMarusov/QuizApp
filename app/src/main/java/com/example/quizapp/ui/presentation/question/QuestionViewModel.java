@@ -31,17 +31,17 @@ public class QuestionViewModel extends ViewModel {
         }, amount, category, difficulty);
     }
 
-//    public void getQuestionsByRepository(Integer amount, Integer category, String difficulty){
-//        App.repository.getQuestions(new IQuizQuestionsService.QuestionsCallback() {
-//            @Override
-//            public void onSuccess(QuizModel model) {
-//                quizModelLiveData.setValue(model);
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable th) {
-//
-//            }
-//        },amount,category,difficulty);
-//    }
+    public void getQuestionsByRepository(Integer amount, Integer category, String difficulty){
+        App.repository.getQuestions(new IQuizQuestionsService.QuestionsCallback() {
+            @Override
+            public void onSuccess(QuizModel model) {
+                quizModelLiveData.setValue(model);
+            }
+
+            @Override
+            public void onFailure(Throwable th) {
+
+            }
+        },amount,category,difficulty);
+    }
 }

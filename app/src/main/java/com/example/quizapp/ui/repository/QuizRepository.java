@@ -20,7 +20,7 @@ public  class QuizRepository implements IQuizQuestionsService, IHistoryStorage {
 
     @Override
     public void getQuestions(QuestionsCallback callback, Integer amount, Integer category, String difficulty) {
-
+        questionsService.getQuestions(callback,amount,category,difficulty);
     }
 
     @Override

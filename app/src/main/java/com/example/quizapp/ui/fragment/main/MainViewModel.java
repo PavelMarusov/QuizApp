@@ -12,7 +12,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.quizapp.App;
 import com.example.quizapp.ui.data.network.QuizAppService;
+import com.example.quizapp.ui.interfaces.IQuizQuestionsService;
 import com.example.quizapp.ui.model.CategoryModel;
+import com.example.quizapp.ui.model.QuizModel;
 import com.example.quizapp.ui.model.Trivia_category;
 
 import java.lang.reflect.Array;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MainViewModel extends ViewModel {
     public MutableLiveData<Integer> mutableLiveData = new MutableLiveData<>();
     public MutableLiveData<CategoryModel> categoryLiveData = new MutableLiveData<>();
+
 
 
     public void plusPress() {

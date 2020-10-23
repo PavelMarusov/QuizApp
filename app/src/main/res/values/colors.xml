@@ -7,4 +7,9 @@
     <color name="colorPink">#DBA5F5</color>
     <color name="text_color">#A9A9A9</color>
     <color name="colorRed">#F80505</color>
+    <color name="colorGreenPrimary">#00EE0C</color>
+    <color name="colorGreenPrimaryDark">#0B4900</color>
+    <color name="colorGreenAccent">#71F883</color>
+    <color name="colorBlue">#40A5E8</color>
+    <color name="colorBlack">#1A1C1C</color>
 </resources>
