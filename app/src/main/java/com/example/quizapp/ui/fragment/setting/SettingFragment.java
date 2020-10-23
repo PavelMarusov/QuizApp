@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.os.TokenWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.example.quizapp.R;
 import com.example.quizapp.databinding.SettingFragmentBinding;
 import com.example.quizapp.ui.adapter.ListThemeAdapter;
 import com.example.quizapp.ui.interfaces.IonCheckBoxLister;
+import com.example.quizapp.ui.model.ThemeModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +35,9 @@ public class SettingFragment extends Fragment {
 
     private SettingViewModel mViewModel;
     private SettingFragmentBinding binding;
-    private List<Integer> list;
+    private List<ThemeModel> list;
     private ListThemeAdapter adapter;
-    private IonCheckBoxLister listener;
+    ThemeModel model;
 
     public static SettingFragment newInstance() {
         return new SettingFragment();
@@ -59,10 +61,14 @@ public class SettingFragment extends Fragment {
 
     public void initRecycler() {
         list = new ArrayList<>();
-        list.add(com.example.quizapp.R.color.colorGreenAccent);
-        list.add(R.color.colorRed);
-        list.add(R.color.colorBlue);
-        list.add(R.color.colorBlack);
+        list.add(model =new ThemeModel(R.color.colorGreenAccent,false));
+        list.add(model =new ThemeModel(R.color.colorRed,false));
+        list.add(model =new ThemeModel(R.color.colorBlue,false));
+        list.add(model =new ThemeModel(R.color.colorBlack,false));
+        for (int i = 0; i < list.size(); i++) {
+            if (i == App.preferences.getThemePosition())
+                list.get(i).setCheck(true);
+        }
         adapter = new ListThemeAdapter(list);
         binding.themeRecyclerView.setAdapter(adapter);
     }
@@ -71,31 +77,39 @@ public class SettingFragment extends Fragment {
             binding.theme.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     binding.recyclerCard.setVisibility(View.VISIBLE);
-                    adapter.setLister(new IonCheckBoxLister() {
-                        @Override
-                        public void onCheckBoxPress(int position) {
-                            binding.recyclerCard.setVisibility(View.GONE);
-                            switch (position){
-                                case 0:
-                                    App.preferences.saveInstance(R.style.GreenTheme);
-                                    break;
-                                case 1:
-                                    App.preferences.saveInstance(R.style.RedTheme);
-                                    break;
-                                case 2:
-                                    App.preferences.saveInstance(R.style.BlueTheme);
-                                    break;
-                                case 3:
-                                    App.preferences.saveInstance(R.style.DarckTheme);
+                    adapter.setLister(position -> {
+                        list.get(position).setCheck(true);
+                        new CountDownTimer(500,500){
+
+                            @Override
+                            public void onTick(long l) {
 
                             }
-                            Intent intent = requireActivity().getIntent();
-                            requireActivity().finish();
-                            startActivity(intent);
 
+                            @Override
+                            public void onFinish() {
+                                binding.recyclerCard.setVisibility(View.GONE);
+                            }
+                        };
+                        switch (position){
+                            case 0:
+                                App.preferences.saveInstance(R.style.GreenTheme);
+                                break;
+                            case 1:
+                                App.preferences.saveInstance(R.style.RedTheme);
+                                break;
+                            case 2:
+                                App.preferences.saveInstance(R.style.BlueTheme);
+                                break;
+                            case 3:
+                                App.preferences.saveInstance(R.style.DarckTheme);
                         }
+                        App.preferences.saveInstancePosition(position);
+                        Intent intent = requireActivity().getIntent();
+                        requireActivity().finish();
+                        startActivity(intent);
+
                     });
                 }
             });

@@ -18,16 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quizapp.R;
 import com.example.quizapp.databinding.ListThemeBinding;
 import com.example.quizapp.ui.interfaces.IonCheckBoxLister;
+import com.example.quizapp.ui.model.ThemeModel;
 
 import java.util.List;
 
 import static android.os.Build.VERSION_CODES.R;
 
 public class ListThemeAdapter extends RecyclerView.Adapter<ListThemeAdapter.Holder> {
-    private List<Integer> list;
+    private List<ThemeModel> list;
     private IonCheckBoxLister lister;
 
-    public ListThemeAdapter(List<Integer> list) {
+    public ListThemeAdapter(List<ThemeModel> list) {
 
         this.list = list;
     }
@@ -60,17 +61,13 @@ public class ListThemeAdapter extends RecyclerView.Adapter<ListThemeAdapter.Hold
         public Holder(ListThemeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    compoundButton.setChecked(true);
-                    lister.onCheckBoxPress(getAdapterPosition());
-                }
-            });
+
         }
 
-        public void onBind(Integer color) {
-            binding.image.setBackgroundResource(color);
+        public void onBind(ThemeModel model) {
+            binding.checkbox.setChecked(model.isCheck());
+            binding.image.setBackgroundResource(model.getColor());
+            binding.checkbox.setOnCheckedChangeListener((compoundButton, b) -> lister.onCheckBoxPress(getAdapterPosition()));
         }
     }
 }

@@ -30,4 +30,12 @@ public class Preferences {
     public int getTheme(int defTheme){
       return   preferences.getInt(PREF_THEME,defTheme);
     }
+
+    public void saveInstancePosition(int pos){
+        Log.d("pop","saveInstance");
+        preferences.edit().putInt(PREF_THEME + "pos",pos).apply();
+    }
+    public int getThemePosition(){
+      return   preferences.getInt(PREF_THEME + "pos",0);
+    }
 }
